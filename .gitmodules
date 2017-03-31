@@ -1,0 +1,3 @@
+[submodule "tedpad"]
+	path = tedpad
+	url = https://github.com/TeddyHutteddy/tedpad.git
