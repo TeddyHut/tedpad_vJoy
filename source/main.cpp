@@ -3,19 +3,24 @@
 
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include "../vJoy/inc/public.h"
 #include "../vJoy/inc/vjoyinterface.h"
 #include "../tedpad/include/tedpad.h"
-
-//To use program: tedpad_vJoy <vJoy_device>
+#include "../include/filetype_tpm.h"
 
 int main(int argc, char *argv[]) {
-	//Check for correct command line arguments
-	/*
-	if (argc > 2) {
-		std::cout << "incorrect number of arguments: 2 expected, " << argc << " given" << std::endl;
+	std::ifstream file("testMap.txt", std::ios_base::binary | std::ios_base::ate | std::ios_base::in);
+	if (!file.is_open()) {
+		std::cout << "Could not open file" << std::endl;
 		exit(1);
 	}
+	auto fileSize = file.tellg();
+	std::string fileStr(fileSize, '\0');
+	file.seekg(0);
+	file.read(&fileStr[0], fileSize);
+	gamepad_map::CompleteMap gamepadMap = Filetype_tpm_dec::Filetype_tpm(fileStr);
+
 	//Check that vJoy is enabled
 	if (!vJoyEnabled()) {
 		std::cout << "error: vJoy is disabled" << std::endl;
@@ -58,36 +63,19 @@ int main(int argc, char *argv[]) {
 	default:
 		break;
 	}
-	*/
+
 	tedpad::Client::ScanForTimeArgs args;
 	args.manageSocketService = true;
 	auto scan_results = tedpad::Client::scanForTime(args);
-	if (scan_results.size() == 0) {
-		std::cout << "Could not find any servers" << std::endl;
-		exit(1);
-	}
-	tedpad::Client tedpad_client;
-	tedpad_client.connectToServer(scan_results.at(0).ip, scan_results.at(0).port);
 
-	while (true) {
-		tedpad_client.gamepadUpdate();
-		bool output;
-		tedpad_client.gamepad.Get_attribute("DigitalOut", output);
-		std::cout << "Digital out value: " << output << std::endl;
-		std::this_thread::sleep_for(std::chrono::milliseconds(250));
-	}
-
-
-	//Need to check about button information here
-
-	/*
 	//Attempt to aquire the vJoy device
 	if (!AcquireVJD(vJoyDevice)) {
 		std::cout << "Failed to aquire vJoy device " << vJoyDevice << std::endl;
 		exit(1);
 	}
 	std::cout << "Successfully acquired vJoy device " << vJoyDevice << std::endl;
-	*/
+	
+
 
 	system("pause");
 }

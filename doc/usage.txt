@@ -1,0 +1,21 @@
+The tedpad_vJoy application allows a tedpad client to work with vJoy on Windows.
+
+Methods of specifying a host
+	-g <gamepad_name>
+		Connect to a host that has the name <gamepad_name>
+	-s <ip>
+		Connect to a host with an IP of <ip>
+	-p <port>
+		Connect to a host with a port of <port>
+	-u
+		Don't connect to a host if it already has a gamepad connected to it
+
+These options can be mized and matched. The client will connect to the first host if finds that matches the conditions
+
+The command usage is as follows:
+	tedpad_vJoy scan
+		Will scan for hosts and list them
+	tedoad_vJoy details <host information>
+		Will give details more details about the host(s) specified
+	tedpad_vJoy connect -v <vJoy_device> -m <map_index_file> <host_information>
+		Will connect to a host and map the appropriate attribues between vJoy and tedpad using the map_index_file

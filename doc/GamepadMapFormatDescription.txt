@@ -2,4 +2,20 @@ Gamepad Map File Format Description
 
 The tedpad gamepad map file format (externsion .tpm) can be used to map attributes of the tedpad gamepad to attributes of vJoy.
 
-vJoy values go on the left, and gamepad values go on the right
+The syntax is very similar to the .tpd file format.
+
+map_begin
+	tedpad = "AttributeName"
+	vjoy = button 1
+	-OR-
+	vjoy = axis x
+	Etc.
+map_end
+
+To map an effect (only constant effects are supported)
+
+effect_begin
+	effect = constant
+	tedpad = "AttributeName"
+	onValue = *...*
+effect_end
